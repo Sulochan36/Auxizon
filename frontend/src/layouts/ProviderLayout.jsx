@@ -1,9 +1,28 @@
-import React from 'react'
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Outlet } from "react-router-dom";
+import ProviderSidebar from "../components/sidebar/ProviderSidebar";
 
 const ProviderLayout = () => {
     return (
-        <div>ProviderLayout</div>
-    )
-}
+        <SidebarProvider>
+            <div className="flex min-h-screen w-full">
 
-export default ProviderLayout
+                <ProviderSidebar />
+
+                <main className="w-full">
+                    <div className="p-4">
+                        <SidebarTrigger />
+                    </div>
+
+                    <section className="px-4 mt-30">
+                        <Outlet />
+                    </section>
+                </main>
+
+            </div>
+        </SidebarProvider>
+    );
+};
+
+export default ProviderLayout;
