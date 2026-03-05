@@ -8,12 +8,12 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     return (
-        <header className="fixed top-0 w-full z-50 border-b border-neutral-300 bg-white opacity-80">
+        <header className="fixed top-0 w-full z-50 border-b border-neutral-300 bg-transparent backdrop-blur-2xl ">
 
             <Container className="flex h-15 items-center justify-between">
 
                 <NavLink to="/">
-                <p className='text-indigo-600 font-extrabold text-4xl'>Auxizon</p>
+                <p className='text-primary font-extrabold text-4xl'>Auxizon</p>
                 </NavLink>
 
                 <ul className="hidden md:flex md:justify-center md:items-center gap-10 text-sm">
@@ -27,13 +27,13 @@ const Navbar = () => {
                 <div className="flex gap-3">
 
                     <NavLink to="/login">
-                        <Button className="hover:cursor-pointer">
+                        <Button className="hover:cursor-pointer bg-primary shadow-derek">
                             Login
                         </Button>
                     </NavLink>
                     
                     <NavLink to="/signup">
-                        <Button className="hover:cursor-pointer">
+                        <Button className="hover:cursor-pointer bg-primary shadow-derek">
                             Signup
                         </Button>
                     </NavLink>

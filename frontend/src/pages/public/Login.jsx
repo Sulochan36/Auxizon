@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input"
 const Login = () => {
     return (
         <Container className='flex justify-center items-center'>
-            <div className='flex flex-col justify-center items-center px-10 py-10 rounded-2xl shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]'>
+            <div className='flex flex-col justify-center items-center px-10 py-10 rounded-2xl shadow-derek'>
                 <header className='flex flex-col justify-center items-start gap-2'>
-                    <h2 className='font-extrabold text-5xl tracking-tight text-balance'>Welcome Back</h2>
+                    <h2 className='font-extrabold text-5xl tracking-tight text-balance text-shadow-black text-shadow-2xs'>Welcome Back</h2>
                     <h3 className='text-2xl text-neutral-500 tracking-tight text-balance'>Enter Your Credentials to access your account</h3>
                 </header>
 
@@ -48,11 +48,11 @@ const Login = () => {
                 </main>
 
                 <footer className='flex flex-col justify-center items-center w-full'>
-                    <Button className="bg-indigo-500 py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-indigo-700 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
+                    <Button className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek">
                         Login to Account
                     </Button>
 
-                    <span>Don't have an account? <NavLink className="text-indigo-500 font-semibold hover:text-indigo-700" to="/signup"> Create an account</NavLink></span>
+                    <span>Don't have an account? <NavLink className="text-indigo-600 font-semibold hover:text-indigo-700" to="/signup"> Create an account</NavLink></span>
                 </footer>
                 
             </div>
