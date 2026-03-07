@@ -48,7 +48,7 @@ export const router = createBrowserRouter(
             <Route element={<ProtectedRoute />}>
                 <Route element={<CustomerLayout />}>
                     <Route path="customer/dashboard" element={<CustomerDashboard />} />
-                    <Route path="/book/:providerId" element={<BookingForm />} />
+                    <Route path="customer/createBooking/:providerId" element={<BookingForm />} />
                 </Route>
             </Route>
 

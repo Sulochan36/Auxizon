@@ -6,13 +6,13 @@ import useAuthStore from './store/useAuthStore';
 
 const App = () => {
 
-  const { checkAuth, isLoading } = useAuthStore();
+  const { checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isCheckingAuth) return <div>Loading...</div>;
 
 
 

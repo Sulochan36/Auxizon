@@ -1,5 +1,6 @@
 import Booking from "../models/bookings.model.js";
 
+
 export const createBooking = async (req, res) => {
     try {
         const customerId = req.user._id;
@@ -15,6 +16,57 @@ export const createBooking = async (req, res) => {
             basePrice
         } = req.body;
 
+        // Validate required fields
+        if (
+            !providerId ||
+            !categoryId ||
+            !address ||
+            !city ||
+            !scheduledDate ||
+            !scheduledTime ||
+            !basePrice
+        ) {
+            return res.status(400).json({
+                message: "All required fields must be provided",
+            });
+        }
+
+        // Validate ObjectIds
+        if (
+            !mongoose.Types.ObjectId.isValid(providerId) ||
+            !mongoose.Types.ObjectId.isValid(categoryId)
+        ) {
+            return res.status(400).json({
+                message: "Invalid provider or category id",
+            });
+        }
+
+        // Prevent past booking date
+        const bookingDate = new Date(scheduledDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (bookingDate < today) {
+            return res.status(400).json({
+                message: "Cannot create booking for past date",
+            });
+        }
+
+        // schedule conflict check
+        const existingBooking = await Booking.findOne({
+            providerId,
+            scheduledDate,
+            scheduledTime,
+            status: { $nin: ["CANCELLED", "COMPLETED"] },
+        });
+
+        if (existingBooking) {
+            return res.status(400).json({
+                message: "Provider already has a booking at this time",
+            });
+        }
+
+        // Create booking
         const booking = await Booking.create({
             customerId,
             providerId,
@@ -23,19 +75,20 @@ export const createBooking = async (req, res) => {
             city,
             scheduledDate,
             scheduledTime,
-            notes,
+            notes: notes || "",
             basePrice,
-            problemImage: req.file?.path || null
+            problemImage: req.file?.path || null,
         });
 
         res.status(201).json({
             message: "Booking created successfully",
-            booking
+            booking,
         });
-
     } catch (error) {
-        console.log("Create booking error:", error);
-        res.status(500).json({ message: "Internal server error" });
+        console.error("Create booking error:", error);
+        res.status(500).json({
+            message: "Internal server error",
+        });
     }
 };
 
@@ -59,8 +112,16 @@ export const getAllBookings = async (req, res) => {
 export const getBookingDetails = async (req, res) => {
     try {
         const { id } = req.params;
+        const customerId = req.user._id;
 
-        const booking = await Booking.findById(id)
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid booking id" });
+        }
+
+        const booking = await Booking.findOne({
+            _id: id,
+            customerId
+        })
             .populate({
                 path: "providerId",
                 populate: {
@@ -86,8 +147,9 @@ export const cancelBooking = async (req, res) => {
     try {
         const { id } = req.params;
         const { reason } = req.body;
+        const customerId = req.user._id;
 
-        const booking = await Booking.findById(id);
+        const booking = await Booking.findOne({ _id: id, customerId });
 
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
@@ -118,8 +180,9 @@ export const rescheduleBooking = async (req, res) => {
     try {
         const { id } = req.params;
         const { scheduledDate, scheduledTime } = req.body;
+        const customerId = req.user._id;
 
-        const booking = await Booking.findById(id);
+        const booking = await Booking.findOne({ _id: id, customerId });
 
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
@@ -129,6 +192,10 @@ export const rescheduleBooking = async (req, res) => {
             return res.status(400).json({
                 message: "Booking cannot be rescheduled"
             });
+        }
+
+        if (new Date(scheduledDate) < new Date()) {
+            return res.status(400).json({ message: "Cannot reschedule to past date" });
         }
 
         booking.scheduledDate = scheduledDate;
@@ -190,8 +257,9 @@ export const getTasksDetails = async (req, res) => {
 export const acceptTask = async (req, res) => {
     try {
         const { id } = req.params;
+        const providerId = req.user.providerId;
 
-        const booking = await Booking.findById(id);
+        const booking = await Booking.findOne({ _id: id, providerId });
 
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
@@ -277,8 +345,9 @@ export const completeTask = async (req, res) => {
     try {
         const { id } = req.params;
         const { finalPrice, workNotes } = req.body;
+        const providerId = req.user.providerId;
 
-        const booking = await Booking.findById(id);
+        const booking = await Booking.findOne({ _id: id, providerId });
 
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
@@ -290,6 +359,10 @@ export const completeTask = async (req, res) => {
             });
         }
 
+        if (!finalPrice || finalPrice < 0) {
+            return res.status(400).json({ message: "Invalid final price" });
+        }
+
         booking.status = "COMPLETED";
         booking.finalPrice = finalPrice;
         booking.workNotes = workNotes;
@@ -298,7 +371,8 @@ export const completeTask = async (req, res) => {
         await booking.save();
 
         res.status(200).json({
-            message: "Task completed successfully"
+            message: "Task completed successfully",
+            booking
         });
 
     } catch (error) {
@@ -306,3 +380,4 @@ export const completeTask = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+

@@ -12,7 +12,7 @@ const ProviderCard = ({ provider }) => {
             alert("You must be logged in as a customer to book a provider.");
             return;
         }
-        navigate(`/bookings/create/${provider._id}`);
+        navigate(`/customer/createBooking/${provider._id}`);
     };
 
     return (

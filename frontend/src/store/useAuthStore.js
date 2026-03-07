@@ -5,14 +5,14 @@ import toast from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
     user: null,
-    isLoading: true,
+    isCheckingAuth: true,
 
     checkAuth: async () => {
         try {
             const res = await axiosInstance.get("/auth/check");
-            set({ user: res.data.user, isLoading: false });
+            set({ user: res.data.user, isCheckingAuth: false });
         } catch (error) {
-            set({ user: null, isLoading: false });
+            set({ user: null, isCheckingAuth: false });
         }
     },
 
@@ -20,25 +20,25 @@ export const useAuthStore = create((set) => ({
 
     logout: async () => {
         try {
-            await axiosInstance.post('/auth/logout');
+            await axiosInstance.post("/auth/logout");
             set({ user: null });
             toast.success("Logged out successfully");
         } catch (err) {
-            console.error(err);
-            toast.error(err.response.data.message);
+            toast.error(err.response?.data?.message || "Logout failed");
         }
     },
 
     refreshToken: async () => {
         try {
-            const res = await axiosInstance.post('/auth/refresh-token');
+            const res = await axiosInstance.post("/auth/refresh-token");
             const user = res.data?.user;
+
             if (user) {
                 set({ user });
             }
+
             return true;
         } catch (err) {
-            console.error("Token refresh failed", err);
             set({ user: null });
             return false;
         }
