@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
     Sidebar,
     SidebarContent,
@@ -17,8 +17,15 @@ import {
     Bell,
     User
 } from "lucide-react";
+import { logoutUser } from "../../api/authApi";
+import { Button } from "../ui/button";
 
 const ProviderSidebar = () => {
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate("/login");
+    };
     return (
         <Sidebar>
 
@@ -85,9 +92,9 @@ const ProviderSidebar = () => {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavLink to="/logout">
+                <Button onClick={handleLogout}>
                     Logout
-                </NavLink>
+                </Button>
             </SidebarFooter>
 
         </Sidebar>

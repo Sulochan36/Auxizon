@@ -8,6 +8,7 @@ import { signupCustomer } from "../../api/authApi";
 
 const RegisterCustomer = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         fullName: "",
         email: "",
@@ -20,14 +21,20 @@ const RegisterCustomer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log("Form data being sent:", form);
         try {
+            setLoading(true);
             const data = await signupCustomer(form);
-            useAuthStore.getState().setUser(data);
-            navigate('/login');
+            console.log("Response from server:", data);
+            setLoading(false);
+
+            if (data) {
+                useAuthStore.getState().setUser(data);
+                navigate("/login");
+            }
+            
         } catch (error) {
             console.log(error.response?.data || error.message);
-            // show error to user
         }
     };
 
@@ -52,9 +59,9 @@ const RegisterCustomer = () => {
                 <div className='flex flex-col justify-center items-center'>
                     <FormInput
                         label="Full Name"
-                        name="fullname"
+                        name="fullName"
                         placeholder="Enter your full name"
-                        value={form.name}
+                        value={form.fullName}
                         onChange={handleChange}
                         required
                     />

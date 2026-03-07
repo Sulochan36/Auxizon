@@ -1,6 +1,6 @@
 // lib/axios.js
 import axios from "axios";
-import { useAuthStore } from "../store/useAuthStore";
+import useAuthStore from "../store/useAuthStore";
 
 export const axiosInstance = axios.create({
     baseURL: import.meta.env.MODE === "development" ? "http://localhost:5000/api" : import.meta.env.VITE_API_BASE_URL,
@@ -12,7 +12,7 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // ✅ Prevent infinite loop by not retrying refresh-token itself
+        
         if (
             error.response?.status === 401 &&
             !originalRequest._retry &&
@@ -27,7 +27,8 @@ axiosInstance.interceptors.response.use(
                     return axiosInstance(originalRequest);
                 }
             } catch (refreshError) {
-                // Logout the user if refresh fails
+                console.log('refresh error: ', refreshError);
+                
                 useAuthStore.getState().logout();
                 return Promise.reject(refreshError);
             }

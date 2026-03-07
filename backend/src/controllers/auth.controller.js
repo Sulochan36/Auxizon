@@ -150,6 +150,29 @@ export const login = async (req, res) => {
             });
         }
 
+        if (user.role === "provider") {
+
+            const provider = await Provider.findOne({ userId: user._id });
+
+            if (!provider) {
+                return res.status(400).json({
+                    message: "Provider profile not found",
+                });
+            }
+
+            if (provider.approvalStatus === "PENDING") {
+                return res.status(403).json({
+                    message: "Your account is awaiting admin approval.",
+                });
+            }
+
+            if (provider.approvalStatus === "REJECTED") {
+                return res.status(403).json({
+                    message: "Your provider account was rejected by admin.",
+                });
+            }
+        }
+
         const isPasswordCorrect = await bcrypt.compare(
             password,
             user.password
@@ -165,13 +188,15 @@ export const login = async (req, res) => {
         generateRefreshToken(user._id, res);
 
         res.status(200).json({
-            _id: user._id,
-            fullName: user.fullName,
-            email: user.email,
-            role: user.role,
-            city: user.city,
-            phone: user.phone,
-            profileImage: user.profileImage,
+            user: {
+                _id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                role: user.role,
+                city: user.city,
+                phone: user.phone,
+                profileImage: user.profileImage,
+            }
         });
     } catch (error) {
         console.log("Login error:", error.message);
@@ -233,7 +258,9 @@ export const refreshAccessToken = async (req, res) => {
 
 export const checkAuth = (req, res) => {
     try {
-        res.status(200).json(req.user);
+        res.status(200).json({
+            user: req.user
+        });
     } catch (error) {
         console.log("CheckAuth error:", error.message);
         res.status(500).json({ message: "Internal server error" });

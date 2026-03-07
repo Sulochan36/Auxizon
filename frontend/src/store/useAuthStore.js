@@ -1,6 +1,7 @@
 
 import { create } from "zustand";
 import { axiosInstance } from "../utils/axios";
+import toast from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
     user: null,
@@ -17,7 +18,33 @@ export const useAuthStore = create((set) => ({
 
     setUser: (user) => set({ user }),
 
-    logout: () => set({ user: null }),
+    logout: async () => {
+        try {
+            await axiosInstance.post('/auth/logout');
+            set({ user: null });
+            toast.success("Logged out successfully");
+        } catch (err) {
+            console.error(err);
+            toast.error(err.response.data.message);
+        }
+    },
+
+    refreshToken: async () => {
+        try {
+            const res = await axiosInstance.post('/auth/refresh-token');
+            const user = res.data?.user;
+            if (user) {
+                set({ user });
+            }
+            return true;
+        } catch (err) {
+            console.error("Token refresh failed", err);
+            set({ user: null });
+            return false;
+        }
+    },
 }));
+
+
 
 export default useAuthStore;

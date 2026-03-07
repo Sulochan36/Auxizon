@@ -5,10 +5,10 @@ import cors from "cors";
 import { connectDB } from './src/config/connectDB.js';
 
 import authRoutes from "./src/routes/auth.routes.js";
-// import adminRoutes from "./src/routes/admin.routes.js";
-// import bookingRoutes from "./src/routes/booking.routes.js";
+import adminRoutes from "./src/routes/admin.routes.js";
+import categoryRoutes from "./src/routes/category.routes.js";
+import bookingRoutes from "./src/routes/booking.routes.js";
 // import providerRoutes from "./src/routes/provider.routes.js";
-// import categoryRoutes from "./src/routes/category.routes.js";
 // import userRoutes from "./src/routes/user.routes.js";
 
 dotenv.config();
@@ -28,10 +28,10 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
-// app.use("/api/admin", adminRoutes);
-// app.use("/api/categories", categoryRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api", bookingRoutes);
 // app.use("/api/provider", providerRoutes);
-// app.use("/api", bookingRoutes);
 // app.use("/api/users", userRoutes);
 
 

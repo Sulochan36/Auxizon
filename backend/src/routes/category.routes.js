@@ -1,17 +1,15 @@
-// import express from "express";
-// import { protectRoute } from "../middlewares/auth.middleware.js";
-// import { requireRole } from "../middlewares/role.middleware.js";
+import express from "express";
+import { protectRoute } from "../middlewares/auth.middleware.js";
+import { requireRole } from "../middlewares/role.middleware.js";
+import { getAllCategories, getCategoryDetail, getProvidersByCategory } from "../controllers/category.controller.js";
 
 
-// const router = express.Router();
+const router = express.Router();
 
-// // router.get('/',getAllCategories);
-// // router.get('/:id', getCategoryDetail);
-
-// // router.post('/', protectRoute, requireRole('admin'), createCategory);
-// // router.put('/:id', protectRoute, requireRole('admin'), updateCategory);
-// // router.post('/:id/toggle', protectRoute, requireRole('admin'), toggleCategory);
+router.get('/',getAllCategories);
+router.get("/providers", getProvidersByCategory);
+router.get('/:id', getCategoryDetail);
 
 
 
-// export default router;
+export default router;

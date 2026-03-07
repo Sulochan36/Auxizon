@@ -2,6 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 import ProviderSidebar from "../components/sidebar/ProviderSidebar";
+import Navbar from "../components/navbar/Navbar";
 
 const ProviderLayout = () => {
     return (
@@ -9,11 +10,11 @@ const ProviderLayout = () => {
             <div className="flex min-h-screen w-full">
 
                 <ProviderSidebar />
-
+                <Navbar/>
                 <main className="w-full">
-                    <div className="p-4">
+                    
                         <SidebarTrigger />
-                    </div>
+                    
 
                     <section className="px-4 mt-30">
                         <Outlet />

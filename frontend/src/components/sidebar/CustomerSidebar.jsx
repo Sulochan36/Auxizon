@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
     Sidebar,
     SidebarContent,
@@ -8,8 +8,16 @@ import {
     SidebarHeader,
 } from "@/components/ui/sidebar";
 import { LayoutDashboard, Calendar, User } from "lucide-react";
+import { Button } from "../ui/button";
+import { logoutUser } from "../../api/authApi";
 
 const CustomerSidebar = () => {
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate("/login");
+    };
+
     return (
         <Sidebar>
 
@@ -27,7 +35,7 @@ const CustomerSidebar = () => {
 
                         <NavLink to="/customer/dashboard">Dashboard</NavLink>
 
-                        <NavLink to="/services">
+                        <NavLink to="/category-page">
                             Book Service
                         </NavLink>
 
@@ -65,9 +73,9 @@ const CustomerSidebar = () => {
 
             {/* Footer */}
             <SidebarFooter>
-                <NavLink to="/logout">
+                <Button onClick={handleLogout}>
                     Logout
-                </NavLink>
+                </Button>
             </SidebarFooter>
 
         </Sidebar>

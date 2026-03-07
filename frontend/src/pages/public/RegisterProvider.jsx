@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormInput from '../../components/forms/FormInput'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { signupProvider } from '../../api/authApi';
 import useAuthStore from '../../store/useAuthStore';
+import { useAdminStore } from '../../store/useAdminStore';
 
 const RegisterProvider = () => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
     const [form, setForm] = useState({
         fullName: "",
         email: "",
@@ -19,18 +23,30 @@ const RegisterProvider = () => {
         serviceAreas: "",
         governmentIdNumber: "",
     });
-
+    
+    const { categories, loadCategories } = useAdminStore();
+    useEffect(() => {
+        loadCategories();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const payload = {
+            ...form,
+            serviceAreas: form.serviceAreas
+                ? form.serviceAreas.split(",").map(a => a.trim())
+                : []
+        };
+        console.log("Provider Form data being sent:", form);
         try {
-            const data = await signupProvider(form);
-
-            useAuthStore.getState().setUser(data.user);
-
-            // redirect to provider dashboard if needed
-            // navigate("/provider/dashboard")
+            setLoading(true);
+            const data = await signupProvider(payload);
+            console.log("Response from server:", data);
+            setLoading(false);
+            if (data) {
+                useAuthStore.getState().setUser(data);
+                navigate("/login");
+            }
 
         } catch (error) {
             console.log(error.response?.data || error.message);
@@ -51,7 +67,7 @@ const RegisterProvider = () => {
             <form onSubmit={handleSubmit} className='flex flex-col justify-center items start w-full'>
                 <div>
                     <h2>Create Account</h2>
-                    <p>Join Auxiaon to start your journey.</p>
+                    <p>Join Auxizon to start your journey.</p>
                 </div>
 
                 <div className='flex flex-col justify-center items-center'>
@@ -106,14 +122,34 @@ const RegisterProvider = () => {
                         />
 
                         {/* Provider-Specific Fields */}
-                        <FormInput
+                        {/* <FormInput
                             label="Category"
                             name="categoryId"
                             placeholder="Select your service category"
                             value={form.categoryId}
                             onChange={handleChange}
                             required
-                        />
+                        /> */}
+
+                        <div className="w-full mb-4">
+                            <label className="block mb-1">Category</label>
+
+                            <select
+                                name="categoryId"
+                                value={form.categoryId}
+                                onChange={handleChange}
+                                className="w-full border p-2 rounded"
+                                required
+                            >
+                                <option value="">Select Category</option>
+
+                                {categories.map((cat) => (
+                                    <option key={cat._id} value={cat._id}>
+                                        {cat.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         <FormInput
                             label="Experience (Years)"
@@ -160,7 +196,7 @@ const RegisterProvider = () => {
                             required
                         />
 
-                        <FormInput
+                        {/* <FormInput
                             label="Upload ID Proof"
                             name="idProofImage"
                             type="file"
@@ -176,13 +212,15 @@ const RegisterProvider = () => {
                             placeholder="Upload your work samples"
                             // onChange={handleMultipleFilesChange}
                             // multiple
-                        />
+                        /> */}
                     </>
                 </div>
 
                 <div className='flex flex-col justify-center items-center w-full'>
-                    <Button type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek">
-                        Submit
+                    <Button disabled={loading} type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek">
+                        
+                            {loading ? "Registering..." : "Submit"}
+                        
                     </Button>
 
                     <span>Already have an account? <NavLink className="text-indigo-600 font-semibold hover:text-indigo-700" to="/signup"> Login</NavLink></span>

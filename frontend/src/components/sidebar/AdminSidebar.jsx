@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
     Sidebar,
     SidebarContent,
@@ -7,8 +7,15 @@ import {
     SidebarGroup,
     SidebarHeader,
 } from "@/components/ui/sidebar";
+import { logoutUser } from "../../api/authApi";
+import { Button } from "../ui/button";
 
 const AdminSidebar = () => {
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate("/login");
+    };
     return (
         <Sidebar>
 
@@ -27,9 +34,9 @@ const AdminSidebar = () => {
                             Dashboard
                         </NavLink>
 
-                        <NavLink to="/admin/analytics">
+                        {/* <NavLink to="/admin/analytics">
                             Analytics
-                        </NavLink>
+                        </NavLink> */}
 
                     </nav>
                 </SidebarGroup>
@@ -38,7 +45,7 @@ const AdminSidebar = () => {
                 <SidebarGroup>
                     <nav className="flex flex-col gap-2">
 
-                        <NavLink to="/admin/users">
+                        <NavLink to="/admin/customers">
                             Customers
                         </NavLink>
 
@@ -46,9 +53,15 @@ const AdminSidebar = () => {
                             Providers
                         </NavLink>
 
-                        <NavLink to="/admin/provider-requests">
-                            Provider Requests
+                        <NavLink to="/admin/categories">
+                            Categories
                         </NavLink>
+
+                        <NavLink to="/admin/bookings">
+                            Bookings
+                        </NavLink>
+
+                        
 
                     </nav>
                 </SidebarGroup>
@@ -57,12 +70,12 @@ const AdminSidebar = () => {
                 <SidebarGroup>
                     <nav className="flex flex-col gap-2">
 
-                        <NavLink to="/admin/categories">
-                            Categories
+                        <NavLink to="/admin/provider-requests">
+                            Provider Requests
                         </NavLink>
 
-                        <NavLink to="/admin/bookings">
-                            Bookings
+                        <NavLink to="/admin/category-requests">
+                            Category Requests
                         </NavLink>
 
                         <NavLink to="/admin/reviews">
@@ -91,9 +104,12 @@ const AdminSidebar = () => {
 
             {/* Footer */}
             <SidebarFooter>
-                <NavLink to="/logout">
+                
+                
+
+                <Button onClick={handleLogout}>
                     Logout
-                </NavLink>
+                </Button>
             </SidebarFooter>
 
         </Sidebar>

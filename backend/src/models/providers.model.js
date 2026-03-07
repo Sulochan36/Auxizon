@@ -74,7 +74,7 @@ const providerSchema = new Schema(
 
         idProofImage: {
             type: String,
-            required: true,
+            // required: true,
         },
 
         workSamples: [

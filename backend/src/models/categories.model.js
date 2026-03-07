@@ -47,14 +47,9 @@ const categorySchema = new Schema(
     }
 );
 
-/*
-Indexes
-*/
-categorySchema.index({ name: 1 }, { unique: true });
 
-/*
-Prevent model overwrite during dev hot reload
-*/
+
+
 const Category =
     mongoose.models.Category || mongoose.model("Category", categorySchema);
 

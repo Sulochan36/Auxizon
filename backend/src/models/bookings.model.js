@@ -124,13 +124,7 @@ const bookingSchema = new Schema(
     }
 );
 
-/*
-Indexes for performance
-*/
-bookingSchema.index({ customerId: 1 });
-bookingSchema.index({ providerId: 1 });
-bookingSchema.index({ status: 1 });
-bookingSchema.index({ scheduledDate: 1 });
+
 
 /*
 Compound indexes for common queries
