@@ -20,7 +20,7 @@ const CategoryCard = ({ category }) => {
             {/* Content */}
             <div className="p-4 flex flex-col gap-3">
 
-                <h3 className="text-lg font-semibold">
+                <h3 className="font-extrabold text-lg tracking-tight text-balance mb-2 capitalize">
                     {category.name}
                 </h3>
 
@@ -30,7 +30,7 @@ const CategoryCard = ({ category }) => {
 
                 <Button
                     onClick={handleExplore}
-                    className="w-full mt-2"
+                    className="w-full mt-2 hover:cursor-pointer hover:bg-secondary shadow-derek hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
                     Explore
                 </Button>

@@ -29,7 +29,11 @@ const Navbar = () => {
                     </NavLink>   
                     </li>
                     <li className="hover:cursor-pointer">How It Works</li>
-                    <li className="hover:cursor-pointer">Become a Provider</li>
+                    <li className="hover:cursor-pointer">
+                        <NavLink to='/register-provider'>
+                            Become a Provider
+                        </NavLink>  
+                    </li>
 
                 </ul>
 
