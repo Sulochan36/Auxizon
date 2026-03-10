@@ -49,14 +49,14 @@ const RegisterCustomer = () => {
 
 
     return (
-        <section className='flex justify-center items-center'>
-            <form onSubmit={handleSubmit} className='flex flex-col justify-center items start w-full'>
-                <div>
-                    <h2>Create Account</h2>
-                    <p>Join Auxiaon to start your journey.</p>
+        <section className='flex justify-center items-center min-h-screen'>
+            <form onSubmit={handleSubmit} className='flex flex-col justify-center items-start bg-white mt-10 mb-5 md:min-w-2xl px-20 py-10 rounded-2xl'>
+                <div className="mb-10">
+                    <h2 className="font-extrabold text-5xl tracking-tight text-balance text-shadow-black text-shadow-2xs mb-2">Customer SignUp</h2>
+                    <p className="text-[16px] font-bold text-neutral-400 tracking-tight text-balance">Join Auxizon to start your journey.</p>
                 </div>
 
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col justify-center items-center w-full'>
                     <FormInput
                         label="Full Name"
                         name="fullName"
@@ -83,17 +83,23 @@ const RegisterCustomer = () => {
                         placeholder="Enter phone number"
                         value={form.phone}
                         onChange={handleChange}
-                    />
-
-                    <FormInput
-                        label="Password"
-                        name="password"
-                        type="password"
-                        placeholder="Enter password"
-                        value={form.password}
-                        onChange={handleChange}
                         required
                     />
+
+                    <div className="w-full flex flex-col justify-center gap-0 mb-5">
+                        <FormInput
+                            label="Password"
+                            name="password"
+                            type="password"
+                            placeholder="********"
+                            value={form.password}
+                            onChange={handleChange}
+                            required
+                            className="mb-0"
+                        />
+                        <p className="text-[12px] text-neutral-400 font-semibold">Must be atleast 8 characters long with a mix of letters and numbers</p>
+                    </div>
+                    
 
                     <FormInput
                         label="City"
@@ -108,12 +114,12 @@ const RegisterCustomer = () => {
                 
                 </div>
 
-                <div className='flex flex-col justify-center items-center w-full'>
-                    <Button type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek">
-                        Submit
+                <div className='flex flex-col justify-center items-center w-full mt-4'>
+                    <Button type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        Create Account
                     </Button>
 
-                    <span>Already have an account? <NavLink className="text-indigo-600 font-semibold hover:text-indigo-700" to="/signup"> Login</NavLink></span>
+                    <span className="text-neutral-600 text-[12px]">Don't want to create account? <NavLink className="text-indigo-600 font-semibold hover:text-indigo-700" to="/"> Continue as guest</NavLink></span>
                 </div>
 
             </form>

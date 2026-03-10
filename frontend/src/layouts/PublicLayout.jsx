@@ -6,7 +6,8 @@ const PublicLayout = () => {
     return (
         <>
             <Navbar />
-            <section className="px-4 mt-30 min-h-screen">
+            
+            <section className="px-4 mt-12 min-h-screen bg-gray-100">
                 <Outlet />
             </section>
         </>

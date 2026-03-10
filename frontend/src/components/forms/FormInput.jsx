@@ -13,9 +13,9 @@ const FormInput = ({
     ...props
 }) => {
     return (
-        <div className="space-y-2 w-full">
+        <div className="space-y-1 w-full mb-5">
             {label && (
-                <Label htmlFor={name}>
+                <Label className="font-bold tracking-tight text-balance text-neutral-900 text-[18px]" htmlFor={name}>
                     {label}
                     {required && <span className="text-red-500 ml-1">*</span>}
                 </Label>
@@ -29,6 +29,7 @@ const FormInput = ({
                 value={value}
                 onChange={onChange}
                 {...props}
+                className="rounded-full px-5 py-6 bg-white"
             />
 
             {error && (

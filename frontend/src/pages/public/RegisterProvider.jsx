@@ -64,13 +64,13 @@ const RegisterProvider = () => {
 
     return (
         <section className='flex justify-center items-center'>
-            <form onSubmit={handleSubmit} className='flex flex-col justify-center items start w-full'>
-                <div>
-                    <h2>Create Account</h2>
-                    <p>Join Auxizon to start your journey.</p>
+            <form onSubmit={handleSubmit} className='flex flex-col justify-center items-start bg-white mt-10 mb-5 md:max-w-5xl px-20 py-10 rounded-2xl'>
+                <div className="mb-10">
+                    <h2 className="font-extrabold text-5xl tracking-tight text-balance text-shadow-black text-shadow-2xs mb-2">Provider Registration</h2>
+                    <p className="text-[16px] font-bold text-neutral-400 tracking-tight text-balance">Join the elite network of verified professionals. Complete your profile to start recieving service requests.</p>
                 </div>
 
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col justify-center items-center w-full'>
                     <>
                         {/* User Fields */}
                         <FormInput
@@ -217,9 +217,9 @@ const RegisterProvider = () => {
                 </div>
 
                 <div className='flex flex-col justify-center items-center w-full'>
-                    <Button disabled={loading} type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek">
+                    <Button disabled={loading} type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                         
-                            {loading ? "Registering..." : "Submit"}
+                            {loading ? "Submiting..." : "Submit for Approval"}
                         
                     </Button>
 

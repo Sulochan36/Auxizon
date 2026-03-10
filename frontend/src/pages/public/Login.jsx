@@ -50,10 +50,10 @@ const Login = () => {
 
     return (
         <Container className='flex justify-center items-center'>
-            <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center px-10 py-10 rounded-2xl shadow-derek'>
+            <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center bg-white px-10 py-10 rounded-2xl shadow-derek mt-10'>
                 <header className='flex flex-col justify-center items-start gap-2'>
                     <h2 className='font-extrabold text-5xl tracking-tight text-balance text-shadow-black text-shadow-2xs'>Welcome Back</h2>
-                    <h3 className='text-2xl text-neutral-500 tracking-tight text-balance'>Enter Your Credentials to access your account</h3>
+                    <h3 className='text-xl text-neutral-500 tracking-tight text-balance'>Enter Your Credentials to access your account</h3>
                 </header>
 
                 <main className='flex flex-col justify-center items-start w-full mt-10'>
@@ -87,7 +87,7 @@ const Login = () => {
                 </main>
 
                 <footer className='flex flex-col justify-center items-center w-full'>
-                    <Button type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek">
+                    <Button type="submit" className="bg-primary py-6 text-[18px] rounded-full hover:cursor-pointer w-full mb-4 hover:bg-secondary shadow-derek hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                         Login to Account
                     </Button>
 
