@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useCategoryStore } from "../../store/useCategoryStore";
 import { fetchProvidersByCategory } from "../../api/categoryApi";
 import ProviderCard from "../../components/cards/ProviderCard";
+import Container from "../../components/Container";
+import CategoryHeader from "../../components/cards/CategoryHeader";
 
 const CategoryDetail = () => {
     const { id } = useParams(); // category ID from URL
@@ -58,19 +60,23 @@ const CategoryDetail = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
-            <p className="mb-6">{category.description}</p>
+            <Container>
 
-            <h2 className="text-2xl font-semibold mb-4">Providers</h2>
+            <header className="mb-20">
+                    <CategoryHeader key={category._id} category={category} />
+            </header>
+
+            <h2 className="text-3xl font-bold mb-4">Providers</h2>
             {providers.length === 0 ? (
                 <p>No providers found for this category.</p>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="flex flex-col justify-center items-start gap-6">
                     {providers.map((provider) => (
                         <ProviderCard key={provider._id} provider={provider} />
                     ))}
                 </div>
             )}
+            </Container>
         </div>
     );
 };
